@@ -24,7 +24,7 @@ const FileContentViewer: React.FC = () => {
       }
 
       const storageAccountUrl = "https://storagecentercsvfiles.blob.core.windows.net";
-      const sasToken = "sp=racwdli&st=2024-07-14T04:07:38Z&se=2024-07-14T12:07:38Z&sv=2022-11-02&sr=c&sig=qZY2UqGi0S1J2Qb%2BCRzLmmSJB3CyQ3G9iU6qPE66Q38%3D";
+      const sasToken = "sp=racwdli&st=2024-07-14T13:05:30Z&se=2024-07-25T21:05:30Z&sv=2022-11-02&sr=c&sig=vF7VkSkwvt9gGCzF789RKtQmY1bMz66ie89dJN758H8%3D";
       const blobServiceClient = new BlobServiceClient(`${storageAccountUrl}?${sasToken}`);
       const containerClient = blobServiceClient.getContainerClient("1st-storage-for-csv");
       const blockBlobClient = containerClient.getBlockBlobClient(fileName);

@@ -48,7 +48,7 @@ const Signup = () => {
           variant="h5"
           sx={{ marginBottom: theme.spacing(2) }}
         >
-          CRM Software
+          Auditing Software
         </Typography>
         <Slide direction="up" in={true} mountOnEnter unmountOnExit>
           <Box>

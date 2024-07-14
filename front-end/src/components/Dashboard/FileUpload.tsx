@@ -50,7 +50,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ storageAccountUrl, sasToken }) 
     try {
       await blockBlobClient.uploadBrowserData(selectedFile);
       alert("File uploaded successfully!");
-      fetchFiles(); // Refresh file list after upload
+      fetchFiles(); 
     } catch (error) {
       console.error("Error uploading file:", error);
       alert("Failed to upload file.");
@@ -73,7 +73,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ storageAccountUrl, sasToken }) 
   };
 
   const handleCopyUrl = (fileName: string) => {
-    const url = `http://localhost:5173/file-viewer/${fileName}`;
+    const url = `https://bob-hack.vercel.app/file-viewer/${fileName}`;
     navigator.clipboard.writeText(url).then(() => {
       setCopySuccess('URL copied to clipboard');
       setTimeout(() => setCopySuccess(null), 3000);
@@ -134,7 +134,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ storageAccountUrl, sasToken }) 
                 }
                 secondary={
                   <span style={{ cursor: 'pointer' }} onClick={() => handleFileClick(file)}>
-                    {`http://localhost:5173/file-viewer/${file}`}
+                    {`https://bob-hack.vercel.app/file-viewer/${file}`}
                   </span>
                 }
               />

@@ -61,7 +61,7 @@ const Signup = () => {
                     );
 
                     if (decoded.name) {
-                      const username = decoded.name;
+                      
 
                       navigate(`/dashboard/file-upload`);
                     }

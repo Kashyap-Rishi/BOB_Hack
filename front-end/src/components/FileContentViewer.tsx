@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { BlobServiceClient } from '@azure/storage-blob';
 import { parse } from 'papaparse';
-import { Box, Typography } from '@mui/material';
+
 
 interface RouteParams {
   fileName: string;

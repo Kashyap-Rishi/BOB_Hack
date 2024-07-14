@@ -96,7 +96,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ storageAccountUrl, sasToken }) 
           sx={{ border: '2px dashed #ccc', p: 4, mb: 4, width: '100%', textAlign: 'center', cursor: 'pointer' }}
         >
           <input
-            accept=".csv,.xlsx,.xls,.txt,.pdf,.doc,.docx"
+            accept=".csv"
             style={{ display: 'none' }}
             id="file-upload"
             type="file"

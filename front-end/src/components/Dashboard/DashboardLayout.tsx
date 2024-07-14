@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Outlet, NavLink, useParams, useNavigate } from "react-router-dom";
+import { Outlet, NavLink,  useNavigate } from "react-router-dom";
 import {
   Drawer,
   List,
@@ -20,7 +20,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { styled } from "@mui/system";
-import { BarChartOutlined, CampaignOutlined, AccountTreeOutlined } from "@mui/icons-material";
+import {  AccountTreeOutlined } from "@mui/icons-material";
 
 const drawerWidth = 240;
 

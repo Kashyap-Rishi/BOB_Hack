@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Box, Container } from '@mui/material';
-import FileUploadOrSelect from '../chat/UploadFile';
 import ChatInterface from '../chat/ChatInterface';
 
 const DataVisualizer: React.FC = () => {
@@ -11,18 +10,15 @@ const DataVisualizer: React.FC = () => {
     setFile(selectedFile);
     setIsProcessing(true);
 
-   
     setTimeout(() => {
       setIsProcessing(false);
-    }, 3000); 
+    }, 3000);
   };
 
   return (
     <Container>
-    
-      <Box sx={{mt:5}}>
-        <FileUploadOrSelect onFileSelected={handleFileSelected} />
-        <ChatInterface isActive={!!file} isProcessing={isProcessing} />
+      <Box sx={{ mt: 5 }}>
+        <ChatInterface isActive={!!file} isProcessing={isProcessing} onFileSelected={handleFileSelected} />
       </Box>
     </Container>
   );

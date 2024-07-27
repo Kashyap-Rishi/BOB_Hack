@@ -1,5 +1,7 @@
 import React, { useState, ChangeEvent } from 'react';
 import { Box, TextField, Button, Typography, Paper, CircularProgress } from '@mui/material';
+import { UploadFile } from '@mui/icons-material';
+import { useDropzone } from 'react-dropzone';
 import WarningIcon from '@mui/icons-material/Warning';
 
 interface Message {
@@ -10,12 +12,32 @@ interface Message {
 interface ChatInterfaceProps {
   isActive: boolean;
   isProcessing: boolean;
+  onFileSelected: (file: File | { name: string }) => void;
 }
 
-const ChatInterface: React.FC<ChatInterfaceProps> = ({ isActive, isProcessing }) => {
+const ChatInterface: React.FC<ChatInterfaceProps> = ({ isActive, isProcessing, onFileSelected }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState<string>('');
   const [fileUploaded, setFileUploaded] = useState<boolean>(false);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop: (acceptedFiles) => {
+      if (acceptedFiles.length > 0) {
+        onFileSelected(acceptedFiles[0]);
+        setFileUploaded(true);
+      }
+    },
+    noClick: true,
+    noKeyboard: true,
+  });
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      onFileSelected(file);
+      setFileUploaded(true);
+    }
+  };
 
   const handleSend = () => {
     if (input.trim() && isActive && !isProcessing) {
@@ -31,15 +53,42 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ isActive, isProcessing })
     }
   };
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setFileUploaded(true);
-
-    }
-  };
-
   return (
+    <>
+          {!isActive && !fileUploaded && !isProcessing && (
+
+    <Box
+    sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: 3 }}
+    {...getRootProps()}
+    style={{
+      border: isDragActive ? '2px dashed #1976d2' : '2px dashed #ccc',
+      borderRadius: 4,
+      padding: 20,
+      width: '100%',
+      textAlign: 'center',
+      cursor: 'pointer',
+    }}
+  >
+    <input {...getInputProps()} type="file" hidden onChange={handleFileUpload} />
+    <Typography variant="h6" gutterBottom>
+      {isDragActive ? 'Drop the file here...' : 'Drag or Upload a File'}
+    </Typography>
+    <Button
+      variant="contained"
+      component="label"
+      startIcon={<UploadFile />}
+      sx={{
+        mb: 2,
+        backgroundColor: "#7AB2B2",
+        "&:hover": { backgroundColor: "#4D869C" },
+      }}
+    >
+      Upload
+      <input type="file" hidden onChange={handleFileUpload} />
+    </Button>
+  </Box>
+
+)}
     <Box sx={{ position: 'relative' }}>
       <Typography variant="h6">Chat Interface</Typography>
       {isProcessing ? (
@@ -64,13 +113,14 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ isActive, isProcessing })
           ))}
           {!isActive && !fileUploaded && !isProcessing && (
             <Box sx={{ textAlign: 'center', padding: 2 }}>
-              <Typography variant="body2" color="textSecondary" sx={{fontWeight:"bold"}}>
+              <Typography variant="body2" color="textSecondary" sx={{ fontWeight: "bold" }}>
                 Graphs, metrics, statistics - Get whatever you want for your data
               </Typography>
             </Box>
           )}
         </Paper>
       )}
+
       <TextField
         variant="outlined"
         fullWidth
@@ -98,6 +148,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ isActive, isProcessing })
         </Box>
       )}
     </Box>
+    </>
   );
 };
 

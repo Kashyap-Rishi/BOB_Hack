@@ -20,7 +20,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { styled } from "@mui/system";
-import {  AccountTreeOutlined } from "@mui/icons-material";
+import {  AccountTreeOutlined,BarChartOutlined } from "@mui/icons-material";
 
 const drawerWidth = 240;
 
@@ -100,12 +100,12 @@ const DashboardLayout: React.FC = () => {
           <ListItemIcon>
             <AccountTreeOutlined />
           </ListItemIcon>
-          <ListItemText primary="Data Visualizer" />
+          <ListItemText primary="File Center" />
         </ListItem>
-        {/* <ListItem
+        <ListItem
           button
           component={NavLink}
-          to={`/dashboard/statistics`}
+          to={`/dashboard/data-visualizer`}
           sx={{
             "&:hover": { backgroundColor: "#e0e0e0" },
             borderBottom: "1px solid black",
@@ -119,8 +119,8 @@ const DashboardLayout: React.FC = () => {
           <ListItemIcon>
             <BarChartOutlined />
           </ListItemIcon>
-          <ListItemText primary="Statistics" />
-        </ListItem> */}
+          <ListItemText primary="Data Visualizer" />
+        </ListItem>
         {/* <ListItem
           button
           component={NavLink}

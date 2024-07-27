@@ -75,7 +75,7 @@ const FileUpload: React.FC = () => {
         const sasTokenEncoded = encodeURIComponent(SAS_TOKENS[selectedContainer]);
         blobs.push({
           name: blob.name,
-          url: `http://localhost:5173/file-viewer/${blob.name}?container=${containers.find((container) => container.key === selectedContainer)?.name}&sasToken=${sasTokenEncoded}`,
+          url: `https://bob-hack.vercel.app/file-viewer/${blob.name}?container=${containers.find((container) => container.key === selectedContainer)?.name}&sasToken=${sasTokenEncoded}`,
           createdTime: properties.createdOn || new Date(),
         });
       }

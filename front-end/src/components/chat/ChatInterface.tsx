@@ -1,12 +1,19 @@
-import React, { useState, ChangeEvent } from 'react';
-import { Box, TextField, Button, Typography, Paper, CircularProgress } from '@mui/material';
-import { UploadFile } from '@mui/icons-material';
-import { useDropzone } from 'react-dropzone';
-import WarningIcon from '@mui/icons-material/Warning';
-import { VegaLite } from 'react-vega';
+import React, { useState, ChangeEvent } from "react";
+import {
+  Box,
+  TextField,
+  Button,
+  Typography,
+  Paper,
+  CircularProgress,
+} from "@mui/material";
+import { UploadFile } from "@mui/icons-material";
+import { useDropzone } from "react-dropzone";
+import WarningIcon from "@mui/icons-material/Warning";
+import { VegaLite } from "react-vega";
 
 interface Message {
-  sender: 'user' | 'bot';
+  sender: "user" | "bot";
   text: string;
   imageBase64?: string;
   vegaSpec?: any;
@@ -18,9 +25,13 @@ interface ChatInterfaceProps {
   onFileSelected: (file: File | { name: string }) => void;
 }
 
-const ChatInterface: React.FC<ChatInterfaceProps> = ({ isActive, isProcessing, onFileSelected }) => {
+const ChatInterface: React.FC<ChatInterfaceProps> = ({
+  isActive,
+  isProcessing,
+  onFileSelected,
+}) => {
   const [messages, setMessages] = useState<Message[]>([]);
-  const [input, setInput] = useState<string>('');
+  const [input, setInput] = useState<string>("");
   const [fileUploaded, setFileUploaded] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -38,18 +49,19 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ isActive, isProcessing, o
 
   const handleFileUpload = (file: File) => {
     const data = {
-      data_url: 'https://raw.githubusercontent.com/uwdata/draco/master/data/cars.csv',
-      query: 'string',
+      data_url:
+        "https://raw.githubusercontent.com/uwdata/draco/master/data/cars.csv",
+      query: "string",
       n_goals: 2,
-      library: 'seaborn',
+      library: "seaborn",
     };
 
     setLoading(true);
 
-    fetch('https://audit-visual-fastapi.onrender.com/visualization', {
-      method: 'POST',
+    fetch("https://audit-visual-fastapi.onrender.com/visualization", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     })
@@ -58,8 +70,8 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ isActive, isProcessing, o
         console.log(data);
         if (data.image_base64_raster) {
           const botMessage: Message = {
-            sender: 'bot',
-            text: 'Here is your visualization:',
+            sender: "bot",
+            text: "Here is your visualization:",
             imageBase64: data.image_base64_raster,
           };
           setMessages((prevMessages) => [...prevMessages, botMessage]);
@@ -68,7 +80,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ isActive, isProcessing, o
         setFileUploaded(false);
       })
       .catch((error) => {
-        console.error('Error:', error);
+        console.error("Error:", error);
         setLoading(false);
       });
   };
@@ -84,22 +96,23 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ isActive, isProcessing, o
 
   const handleSend = () => {
     if (input.trim() && isActive && !isProcessing) {
-      const userMessage: Message = { sender: 'user', text: input };
+      const userMessage: Message = { sender: "user", text: input };
       setMessages([...messages, userMessage]);
 
       const data = {
-        data_url: 'https://raw.githubusercontent.com/uwdata/draco/master/data/cars.csv',
+        data_url:
+          "https://raw.githubusercontent.com/uwdata/draco/master/data/cars.csv",
         query: input.trim(),
         n_goals: 2,
-        library: 'altair',
+        library: "altair",
       };
 
       setLoading(true);
 
-      fetch('https://audit-visual-fastapi.onrender.com/query', {
-        method: 'POST',
+      fetch("https://audit-visual-fastapi.onrender.com/query", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
       })
@@ -108,8 +121,8 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ isActive, isProcessing, o
           console.log(data);
           if (data.image_base64_vega) {
             const botMessage: Message = {
-              sender: 'bot',
-              text: 'Here is your visualization:',
+              sender: "bot",
+              text: "Here is your visualization:",
               vegaSpec: data.image_base64_vega,
             };
             setMessages((prevMessages) => [...prevMessages, botMessage]);
@@ -117,11 +130,11 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ isActive, isProcessing, o
           setLoading(false);
         })
         .catch((error) => {
-          console.error('Error:', error);
+          console.error("Error:", error);
           setLoading(false);
         });
 
-      setInput('');
+      setInput("");
     }
   };
 
@@ -129,20 +142,30 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ isActive, isProcessing, o
     <>
       {!isActive && !fileUploaded && !isProcessing && !loading && (
         <Box
-          sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: 3 }}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            mb: 3,
+          }}
           {...getRootProps()}
           style={{
-            border: isDragActive ? '2px dashed #1976d2' : '2px dashed #ccc',
+            border: isDragActive ? "2px dashed #1976d2" : "2px dashed #ccc",
             borderRadius: 4,
             padding: 20,
-            width: '100%',
-            textAlign: 'center',
-            cursor: 'pointer',
+            width: "100%",
+            textAlign: "center",
+            cursor: "pointer",
           }}
         >
-          <input {...getInputProps()} type="file" hidden onChange={handleFileInputChange} />
+          <input
+            {...getInputProps()}
+            type="file"
+            hidden
+            onChange={handleFileInputChange}
+          />
           <Typography variant="h6" gutterBottom>
-            {isDragActive ? 'Drop the file here...' : 'Drag or Upload a File'}
+            {isDragActive ? "Drop the file here..." : "Drag or Upload a File"}
           </Typography>
           <Button
             variant="contained"
@@ -159,42 +182,67 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ isActive, isProcessing, o
           </Button>
         </Box>
       )}
-      <Box sx={{ position: 'relative' }}>
+      <Box sx={{ position: "relative" }}>
         <Typography variant="h6">Chat Interface</Typography>
         {loading ? (
-          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100px' }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100px",
+            }}
+          >
             <CircularProgress />
-            <Typography variant="body2" sx={{ marginLeft: 2 }}>Processing...</Typography>
+            <Typography variant="body2" sx={{ marginLeft: 2 }}>
+              Processing...
+            </Typography>
           </Box>
         ) : (
-          <Paper sx={{ minHeight: '100vh', overflowY: 'scroll', padding: 2, marginBottom: 2 }}>
+          <Paper
+            sx={{
+              minHeight: "100vh",
+              overflowY: "scroll",
+              padding: 2,
+              marginBottom: 2,
+            }}
+          >
             {messages.map((msg, index) => (
-                  <Box
-                  key={index}
-                  sx={{
-                    textAlign: msg.sender === 'user' ? 'right' : 'left',
-                    padding: 1,
-                  }}
-                >
-                  <Typography variant="body2">
-                    <strong>{msg.sender}:</strong> {msg.text}
-                  </Typography>
-                  {msg.imageBase64 && (
-                    <Box sx={{ textAlign: 'left', marginTop: 1 }}>
-                      <img src={`data:image/png;base64,${msg.imageBase64}`} alt="visualization" style={{ width: 500, height: 450 }} />
-                    </Box>
-                  )}
-                  {msg.vegaSpec && (
-                    <Box sx={{ textAlign: 'left', marginTop: 1 }}>
-                      <VegaLite spec={msg.vegaSpec} actions={false} />
-                    </Box>
-                  )}
-                </Box>
+              <Box
+                key={index}
+                sx={{
+                  textAlign: msg.sender === "user" ? "right" : "left",
+                  padding: 1,
+                }}
+              >
+                <Typography variant="body2">
+                  <strong>{msg.sender}:</strong> {msg.text}
+                </Typography>
+                {msg.imageBase64 && (
+                  <Box sx={{ textAlign: "left", marginTop: 1 }}>
+                    <img
+                      src={`data:image/png;base64,${msg.imageBase64}`}
+                      alt="visualization"
+                      style={{ width: 500, height: 450 }}
+                    />
+                  </Box>
+                )}
+                {msg.vegaSpec && (
+                  <Box sx={{ textAlign: "left", marginTop: 1 }}>
+                    <VegaLite spec={msg.vegaSpec} actions={false} />
+                  </Box>
+                )}
+              </Box>
             ))}
             {!isActive && !fileUploaded && !isProcessing && !loading && (
-              <Box sx={{ textAlign: 'center', padding: 2 }}>
-                <Typography variant="body2" color="textSecondary" sx={{ fontWeight: "bold" }}>
-                  Graphs, metrics, statistics - Get whatever you want for your data
+              <Box sx={{ textAlign: "center", padding: 2 }}>
+                <Typography
+                  variant="body2"
+                  color="textSecondary"
+                  sx={{ fontWeight: "bold" }}
+                >
+                  Graphs, metrics, statistics - Get whatever you want for your
+                  data
                 </Typography>
               </Box>
             )}
@@ -205,10 +253,15 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ isActive, isProcessing, o
           fullWidth
           placeholder="Type a message..."
           value={input}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => setInput(e.target.value)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setInput(e.target.value)
+          }
           sx={{ marginBottom: 2 }}
           disabled={!isActive || isProcessing || loading}
-          style={{ cursor: !isActive || isProcessing || loading ? 'not-allowed' : 'text' }}
+          style={{
+            cursor:
+              !isActive || isProcessing || loading ? "not-allowed" : "text",
+          }}
         />
         <Button
           variant="contained"
@@ -219,8 +272,8 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ isActive, isProcessing, o
           Send
         </Button>
         {!isActive && !fileUploaded && !isProcessing && !loading && (
-          <Box sx={{ display: 'flex', alignItems: 'center', marginTop: 2 }}>
-            <WarningIcon sx={{ color: 'red', fontSize: 20, marginRight: 1 }} />
+          <Box sx={{ display: "flex", alignItems: "center", marginTop: 2 }}>
+            <WarningIcon sx={{ color: "red", fontSize: 20, marginRight: 1 }} />
             <Typography variant="body2" color="red" fontWeight="bold">
               Upload a file to start the conversation.
             </Typography>

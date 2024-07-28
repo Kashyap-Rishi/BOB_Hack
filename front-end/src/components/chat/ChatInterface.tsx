@@ -55,7 +55,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
       n_goals: 2,
       library: "seaborn",
     };
-
+  
     setLoading(true);
 
     fetch("https://audit-visual-fastapi.onrender.com/visualization", {
@@ -83,6 +83,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
         console.error("Error:", error);
         setLoading(false);
       });
+      console.log(file)
   };
 
   const handleFileInputChange = (event: ChangeEvent<HTMLInputElement>) => {

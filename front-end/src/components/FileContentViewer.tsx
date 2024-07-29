@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import { BlobServiceClient } from '@azure/storage-blob';
@@ -8,9 +7,13 @@ interface RouteParams {
   [key: string]: string | undefined;
 }
 
+interface DataRow {
+  [key: string]: string | number;
+}
+
 const FileContentViewer: React.FC = () => {
   const { fileName } = useParams<RouteParams>();
-  const [fileContent, setFileContent] = useState<any[] | null>(null);
+  const [fileContent, setFileContent] = useState<DataRow[] | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const location = useLocation();
@@ -27,10 +30,6 @@ const FileContentViewer: React.FC = () => {
       const containerName = queryParams.get('container');
       const sasToken = queryParams.get('sasToken');
 
-      console.log('Location search:', location.search);
-      console.log('Container name:', containerName);
-      console.log('SAS token:', sasToken);
-  
       if (!containerName || !sasToken) {
         console.error("Container name or SAS token is missing");
         setError("Container name or SAS token is not provided.");
@@ -44,15 +43,18 @@ const FileContentViewer: React.FC = () => {
       const blockBlobClient = containerClient.getBlockBlobClient(fileName);
 
       try {
-        console.log("Fetching file from blob URL:", blockBlobClient.url);
-
         const downloadResponse = await blockBlobClient.download();
         const blob = await downloadResponse.blobBody?.then(body => body);
 
         if (blob) {
           const text = await blob.text();
           const parsedData = parse(text, { header: true }).data;
-          setFileContent(parsedData);
+          if (Array.isArray(parsedData) && parsedData.length > 0) {
+            setFileContent(parsedData as DataRow[]);
+          } else {
+            console.error("Parsed data is not in the expected format.");
+            setError("Parsed data is not in the expected format.");
+          }
         } else {
           console.error("Blob is undefined");
           setError("Failed to download file content.");
@@ -66,15 +68,43 @@ const FileContentViewer: React.FC = () => {
     fetchFileContent();
   }, [fileName, location.search]);
 
+  const renderTable = () => {
+    if (!fileContent || fileContent.length === 0) return null;
+
+    const headers = Object.keys(fileContent[0]);
+
+    return (
+      <table style={{ borderCollapse: 'collapse', width: '100%' }}>
+        <thead>
+          <tr>
+            {headers.map(header => (
+              <th key={header} style={{ border: '1px solid black', padding: '8px', textAlign: 'left' }}>
+                {header}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {fileContent.map((row, index) => (
+            <tr key={index}>
+              {headers.map(header => (
+                <td key={header} style={{ border: '1px solid black', padding: '8px' }}>
+                  {row[header]}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
+  };
+
   return (
     <>
-      {error && <div>{error}</div>}
-      {fileContent && (
-        <pre>{JSON.stringify(fileContent, null, 2)}</pre>
-      )}
+      {error && <div style={{ color: 'red' }}>{error}</div>}
+      {renderTable()}
     </>
   );
 };
 
 export default FileContentViewer;
-

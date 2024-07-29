@@ -72,10 +72,10 @@ const FileUpload: React.FC = () => {
       const blobs: FileData[] = [];
       for await (const blob of containerClient.listBlobsFlat()) {
         const properties = await containerClient.getBlobClient(blob.name).getProperties();
-        const sasTokenEncoded = encodeURIComponent(SAS_TOKENS[selectedContainer]);
+
         blobs.push({
           name: blob.name,
-          url: `https://bob-hack.vercel.app/file-viewer/${blob.name}?container=${containers.find((container) => container.key === selectedContainer)?.name}&sasToken=${sasTokenEncoded}`,
+          url: `${STORAGE_ACCOUNT_URL}/${containers.find((container) => container.key === selectedContainer)?.name}/${blob.name}?${SAS_TOKENS[selectedContainer]}`,
           createdTime: properties.createdOn || new Date(),
         });
       }

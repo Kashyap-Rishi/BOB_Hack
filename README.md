@@ -34,10 +34,10 @@ We present 3 features of our solution :-
   3. Recommendar for Auditing prefernces of Banks and Bank branches.
 
 #### Solution Overview :- 
-[Overview image ](ov.png)
+##### Overview image 
 ![ov](https://github.com/sandeshlavshetty/AI_Architects/assets/138968398/fb0a9c10-a45a-4f14-adff-91fd7eb2e001)
 
-[Finetuned LLM model](B_llm.png)
+##### Finetuned LLM model
 
 ![B_llm](https://github.com/sandeshlavshetty/AI_Architects/assets/138968398/16af02db-943d-4484-882e-bf0ac28072ad)
 
@@ -57,7 +57,7 @@ We present 3 features of our solution :-
      4️⃣. reporting acceptable and anomalies parameters
 
    
-[A-MAS](ovs_final.png)
+##### A-MAS
 
 ![ovs_final](https://github.com/sandeshlavshetty/AI_Architects/assets/138968398/d924cef7-f407-47ae-9ed9-5cd26dde5b04)
 
@@ -95,7 +95,7 @@ Working:
 
 
 2. 🥈Query Data Visualizer
-  [ Data Visualizer tool ](visual.png)
+##### Data Visualizer tool 
   ![visual](https://github.com/sandeshlavshetty/AI_Architects/assets/138968398/f2c59efa-3637-45d2-82b7-5e24cdf4fb96)
 
   Input :- 
@@ -115,7 +115,7 @@ Working:
 
 
 3. 🥉Recommendar for Auditing prefernces of Banks and Bank branches.
-   [Recommender](recd.png)
+   ##### Recommender
 
    ![recd](https://github.com/sandeshlavshetty/AI_Architects/assets/138968398/93b41002-29fb-4d71-81ea-313753770e00)
 
